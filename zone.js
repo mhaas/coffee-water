@@ -7,25 +7,27 @@ const findRatiosForZone = (alkalinityWater1, hardnessWater1, alkalinityWater2, h
   const minAlkalinity = minMaxAlkalinity[0]
   const maxAlkalinity = minMaxAlkalinity[1]
 
+  console.debug(`Zone: minimum alkalinity is ${minAlkalinity}, maximum alkalinity is ${maxAlkalinity}`)
+
   const stepAlkalinity = 0.5
 
   const ratios = []
 
-  for (let targetAlkalinity = minAlkalinity; targetAlkalinity < maxAlkalinity; targetAlkalinity += stepAlkalinity) {
-    const proportionWater1 = ratio.ratio(alkalinityWater1, alkalinityWater2, targetAlkalinity)
+  for (let targetAlkalinity = minAlkalinity; targetAlkalinity <= maxAlkalinity; targetAlkalinity += stepAlkalinity) {
+    const proportionWater1 = ratio.calculateProportion(alkalinityWater1, alkalinityWater2, targetAlkalinity)
 
     if (proportionWater1 == null) {
       console.log(`No ratio can be found for target alkalinity ${targetAlkalinity}`)
       continue
     }
 
-    const hardness = computeConcentration(proportionWater1, hardnessWater1, hardnessWater2)
+    const hardness = calculateConcentration(proportionWater1, hardnessWater1, hardnessWater2)
 
     if (inside([targetAlkalinity, hardness], zone)) {
-      console.log(`(${proportionWater1}: ${targetAlkalinity},${hardness}) IN zone!`)
+      console.log(`(${proportionWater1}: ${targetAlkalinity} / ${hardness}) IN zone!`)
       ratios.push(proportionWater1)
     } else {
-      console.log(`(${proportionWater1}: ${targetAlkalinity},${hardness}) NOT in zone!`)
+      // console.log(`(${proportionWater1}: ${targetAlkalinity} / ${hardness}) NOT in zone!`)
     }
   }
   return ratios
@@ -54,10 +56,10 @@ const findMinMaxAlkalinityForZone = (zone) => {
   return [min, max]
 }
 
-const computeConcentration = (proportionWater1, water1, water2) => {
+const calculateConcentration = (proportionWater1, water1, water2) => {
   const proportionWater2 = (1 - proportionWater1)
 
   return (water1 * proportionWater1) + (water2 * proportionWater2)
 }
 
-exports.compute_concentration = computeConcentration
+exports.calculateConcentration = calculateConcentration

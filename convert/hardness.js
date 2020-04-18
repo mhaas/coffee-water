@@ -10,7 +10,7 @@ const hardnessCaMgToCaCO3 = (calciumMgPerL, magnesiumMgPerL) => {
   return calciumMgPerL * 2.497 + magnesiumMgPerL * 4.118
 }
 
-exports.hardnessGHToCaCO3 = hardnessCaMgToCaCO3
+exports.hardnessCaMgToCaCO3 = hardnessCaMgToCaCO3
 
 /**
    * Convert hardness from German hardness (°dH) to CaCO3 (ppm).

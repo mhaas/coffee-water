@@ -15,7 +15,7 @@ exports.alkalinityGHToCaCO3 = alkalinityGHToCaCO3
  * @param {Number} germanHardness
  */
 const alkalinityGHToHCO3 = (germanHardness) => {
-  return germanHardness / 0.4595
+  return germanHardness / 0.04595
 }
 
 exports.alkalinityGHToHCO3 = alkalinityGHToHCO3
