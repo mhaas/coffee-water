@@ -10,5 +10,8 @@
   "license": "ISC",
   "dependencies": {
     "point-in-polygon": "^1.0.1"
+  },
+  "devDependencies": {
+    "standard": "^14.3.3"
   }
 }

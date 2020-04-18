@@ -1,69 +1,63 @@
-const inside = require('point-in-polygon');
+const inside = require('point-in-polygon')
 
-const ratio = require("./ratio.js")
+const ratio = require('./ratio.js')
 
+const findRatiosForZone = (alkalinityWater1, hardnessWater1, alkalinityWater2, hardnessWater2, zone) => {
+  const minMaxAlkalinity = findMinMaxAlkalinityForZone(zone)
+  const minAlkalinity = minMaxAlkalinity[0]
+  const maxAlkalinity = minMaxAlkalinity[1]
 
-const find_ratios_for_zone = (water_1_alkalinity, water_1_hardness, water_2_alkalinity, water_2_hardness, zone) => {
+  const stepAlkalinity = 0.5
 
-    const min_max = find_min_max_alkalinity_for_zone(zone);
-    const min_alkalinity = min_max[0];
-    const max_alkalinity = min_max[1];
+  const ratios = []
 
-    const step_alkalinity = 0.5;
+  for (let targetAlkalinity = minAlkalinity; targetAlkalinity < maxAlkalinity; targetAlkalinity += stepAlkalinity) {
+    const proportionWater1 = ratio.ratio(alkalinityWater1, alkalinityWater2, targetAlkalinity)
 
-    ratios = []
-
-    for (let target_alkalinity = min_alkalinity; target_alkalinity < max_alkalinity; target_alkalinity+=step_alkalinity) {
-
-        let alk_ratio = ratio.ratio(water_1_alkalinity, water_2_alkalinity, alk);
-
-        if (alk_ratio == null) {
-            console.log(`No ratio can be found for target alkalinity ${alk}`);
-        }
-        
-        let hardness = compute_concentration(alk_ratio, water_1_hardness, water_2_hardness);
-
-        if (inside([alk, hardness], zone)) {
-            console.log(`(${alk_ratio}: ${alk},${hardness}) IN zone!`)
-        } else {
-            console.log(`(${alk_ratio}: ${alk},${hardness}) NOT in zone!`)
-        }
-
+    if (proportionWater1 == null) {
+      console.log(`No ratio can be found for target alkalinity ${targetAlkalinity}`)
+      continue
     }
-};
 
-exports.find_ratios_for_zone = find_ratios_for_zone;
+    const hardness = computeConcentration(proportionWater1, hardnessWater1, hardnessWater2)
 
-
-const find_min_max_alkalinity_for_zone = (zone) => {
-
-    let min_alkalinity = null;
-    let max_alkalinity = null;
-
-    for (let idx = 0; idx < zone.length; idx++) {
-        let point = zone[idx];
-        let alk = point[0];
-        if (min_alkalinity == null) {
-            min_alkalinity = alk;
-            max_alkalinity = alk;
-        }
-        if (min_alkalinity > alk) {
-            min_alkalinity = alk;
-        }
-        if (max_alkalinity < alk) {
-            max_alkalinity = alk;
-        }
+    if (inside([targetAlkalinity, hardness], zone)) {
+      console.log(`(${proportionWater1}: ${targetAlkalinity},${hardness}) IN zone!`)
+      ratios.push(proportionWater1)
+    } else {
+      console.log(`(${proportionWater1}: ${targetAlkalinity},${hardness}) NOT in zone!`)
     }
-    return [min_alkalinity, max_alkalinity];
+  }
+  return ratios
 }
 
+exports.findRatiosForZone = findRatiosForZone
 
-compute_concentration = (proportion_water_1, water_1, water_2) => {
+const findMinMaxAlkalinityForZone = (zone) => {
+  let min = null
+  let max = null
 
-    let proportion_water_2 = (1 - proportion_water_1);
+  for (let idx = 0; idx < zone.length; idx++) {
+    const point = zone[idx]
+    const alk = point[0]
+    if (min == null) {
+      min = alk
+      max = alk
+    }
+    if (min > alk) {
+      min = alk
+    }
+    if (max < alk) {
+      max = alk
+    }
+  }
+  return [min, max]
+}
 
-    return  (water_1 * proportion_water_1) + (water_2 * proportion_water_2);
-};
+const computeConcentration = (proportionWater1, water1, water2) => {
+  const proportionWater2 = (1 - proportionWater1)
 
-exports.compute_concentration = compute_concentration;
+  return (water1 * proportionWater1) + (water2 * proportionWater2)
+}
 
+exports.compute_concentration = computeConcentration
