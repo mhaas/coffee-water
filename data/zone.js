@@ -1,4 +1,8 @@
 
+// All data taken from the SCAE Water Chart Report by M. Wellinger
+// et all.
+
+// All mistakes my own!
 const ScaeCore = [
   [39, 55],
   [39, 75],

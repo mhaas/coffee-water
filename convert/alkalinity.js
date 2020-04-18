@@ -1,3 +1,5 @@
+// Source: SCAE Water Chart Report
+
 /**
  * Convert alkalinity from German hardness (°dH) to CaCO3 (ppm).
  *
