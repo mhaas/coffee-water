@@ -76,11 +76,9 @@ zone.findRatiosForZone(
   zoneData.ScaaApproximate
 )
 
-
 // 3.5 dH KH
 // 5 dH GH
 
 console.log(`3.5°dH carbonate hardness is ${alkalinity.alkalinityGHToCaCO3(3.5)} ppm CaCO3`)
 
 console.log(`5°dH total hardness is ${hardness.hardnessGHToCaCO3(5)} ppm CaCO3`)
-

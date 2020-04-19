@@ -21,13 +21,15 @@ const findRatiosForZone = (alkalinityWater1, hardnessWater1, alkalinityWater2, h
       continue
     }
 
+    const partsToadd1 = ratio.calculateParts(alkalinityWater1, alkalinityWater2, targetAlkalinity)
+
     const hardness = calculateConcentration(proportionWater1, hardnessWater1, hardnessWater2)
 
     if (inside([targetAlkalinity, hardness], zone)) {
-      console.log(`(${proportionWater1}: ${targetAlkalinity} / ${hardness}) IN zone!`)
+      console.log(`(${proportionWater1}: ${targetAlkalinity} / ${hardness}) IN zone! (Add ${partsToadd1} parts of water 1 to 1 part of Water 2)`)
       ratios.push(proportionWater1)
     } else {
-      // console.log(`(${proportionWater1}: ${targetAlkalinity} / ${hardness}) NOT in zone!`)
+      console.log(`(${proportionWater1}: ${targetAlkalinity} / ${hardness}) NOT in zone! (Add ${partsToadd1} parts of water 1 to 1 part of Water 2)`)
     }
   }
   return ratios
