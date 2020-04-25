@@ -1,10 +1,14 @@
 
 import React from 'react'
 
-import { VictoryBar } from 'victory'
+import { VictoryChart, VictoryBar } from 'victory'
 
 export default class Plot extends React.Component {
   render () {
-    return <VictoryBar />
+    return (
+      <VictoryChart>
+        <VictoryBar />
+      </VictoryChart>
+    )
   }
 }

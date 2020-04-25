@@ -8,8 +8,8 @@
     "build": "NODE_ENV=production webpack --mode production",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack-dev-server --open",
-    "lint": "standard src/*",
-    "lint:fix": "standard --fix src/*"
+    "lint": "standard 'src/**/*js' 'src/**/*jsx'",
+    "lint:fix": "standard --fix 'src/**/*js' 'src/**/*jsx'"
   },
   "author": "",
   "license": "ISC",
