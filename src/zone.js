@@ -1,8 +1,8 @@
-const inside = require('point-in-polygon')
+import * as inside from 'point-in-polygon'
 
-const ratio = require('./ratio.js')
+import * as ratio from './ratio.js'
 
-const findRatiosForZone = (alkalinityWater1, hardnessWater1, alkalinityWater2, hardnessWater2, zone) => {
+export const findRatiosForZone = (alkalinityWater1, hardnessWater1, alkalinityWater2, hardnessWater2, zone) => {
   const minMaxAlkalinity = findMinMaxAlkalinityForZone(zone)
   const minAlkalinity = minMaxAlkalinity[0]
   const maxAlkalinity = minMaxAlkalinity[1]
@@ -35,8 +35,6 @@ const findRatiosForZone = (alkalinityWater1, hardnessWater1, alkalinityWater2, h
   return ratios
 }
 
-exports.findRatiosForZone = findRatiosForZone
-
 const findMinMaxAlkalinityForZone = (zone) => {
   let min = null
   let max = null
@@ -58,10 +56,8 @@ const findMinMaxAlkalinityForZone = (zone) => {
   return [min, max]
 }
 
-const calculateConcentration = (proportionWater1, water1, water2) => {
+export const calculateConcentration = (proportionWater1, water1, water2) => {
   const proportionWater2 = (1 - proportionWater1)
 
   return (water1 * proportionWater1) + (water2 * proportionWater2)
 }
-
-exports.calculateConcentration = calculateConcentration

@@ -1,17 +1,33 @@
 {
   "name": "coffee-water",
   "version": "1.0.0",
+  "sideEffects": false,
   "description": "",
-  "main": "run.js",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "webpack",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "webpack-dev-server --open",
+    "lint": "standard src/*",
+    "lint:fix": "standard --fix src/*"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "point-in-polygon": "^1.0.1"
+    "point-in-polygon": "^1.0.1",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
   },
   "devDependencies": {
-    "standard": "^14.3.3"
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.5",
+    "@babel/preset-react": "^7.9.4",
+    "babel-loader": "^8.1.0",
+    "d3": "^5.15.1",
+    "standard": "^14.3.3",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.10.3"
   }
 }
