@@ -1,7 +1,7 @@
 const path = require('path')
 
 module.exports = {
-  entry: './src/index.js',
+  entry:  ['react-hot-loader/patch', './src/index.js'],
   mode: 'development',
   module: {
     rules: [
@@ -13,7 +13,12 @@ module.exports = {
       }
     ]
   },
-  resolve: { extensions: [.js", ".jsx", "json"] },
+  resolve: {
+    extensions: [".js", ".jsx", "json"],
+    alias: {
+      'react-dom': '@hot-loader/react-dom'
+    }
+  },
   output: {
     filename: 'main.js',
     path: path.resolve(__dirname, 'dist')

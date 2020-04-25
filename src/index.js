@@ -1,4 +1,3 @@
-import * as d3 from 'd3'
 
 import * as alkalinity from './convert/alkalinity.js'
 import * as hardness from './convert/hardness.js'
@@ -6,9 +5,7 @@ import * as hardness from './convert/hardness.js'
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-
-
-import {Plot} from './components/Plot'
+import App from './components/App'
 
 const mannheimHardnessDh = 20.6
 const mannheimHardnessCaCO3Ppm = hardness.hardnessGHToCaCO3(
@@ -40,5 +37,5 @@ const zoneData = require('./data/zone.js')
 
 window.addEventListener('DOMContentLoaded', (event) => {
   const domContainer = document.querySelector('#container')
-  ReactDOM.render(<Plot />, domContainer)
+  ReactDOM.render(<App />, domContainer)
 })
