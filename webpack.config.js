@@ -13,7 +13,7 @@ module.exports = {
       }
     ]
   },
-  resolve: { extensions: [".js", ".jsx", "json"] },
+  resolve: { extensions: [.js", ".jsx", "json"] },
   output: {
     filename: 'main.js',
     path: path.resolve(__dirname, 'dist')
