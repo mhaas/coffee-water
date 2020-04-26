@@ -25,12 +25,20 @@
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.9.0",
     "@babel/preset-env": "^7.9.5",
+    "@babel/preset-flow": "^7.9.0",
     "@babel/preset-react": "^7.9.4",
+    "babel-eslint": "^10.1.0",
     "babel-loader": "^8.1.0",
     "d3": "^5.15.1",
+    "eslint-plugin-flowtype": "^4.7.0",
+    "flow-bin": "^0.123.0",
     "standard": "^14.3.3",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.10.3"
+  },
+  "standard": {
+    "parser": "babel-eslint",
+    "plugins": [ "flowtype" ]
   }
 }
