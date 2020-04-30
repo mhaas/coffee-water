@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "build": "NODE_ENV=production webpack --mode production",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "webpack-dev-server --open",
     "lint": "standard 'src/**/*js' 'src/**/*jsx'",
     "lint:fix": "standard --fix 'src/**/*js' 'src/**/*jsx'"
@@ -15,6 +15,7 @@
   "license": "ISC",
   "dependencies": {
     "@hot-loader/react-dom": "^16.13.0",
+    "@material-ui/core": "^4.9.11",
     "point-in-polygon": "^1.0.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -27,11 +28,14 @@
     "@babel/preset-env": "^7.9.5",
     "@babel/preset-flow": "^7.9.0",
     "@babel/preset-react": "^7.9.4",
+    "@testing-library/react": "^10.0.3",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.1.0",
     "d3": "^5.15.1",
     "eslint-plugin-flowtype": "^4.7.0",
     "flow-bin": "^0.123.0",
+    "jest": "^25.4.0",
+    "react-test-renderer": "^16.13.1",
     "standard": "^14.3.3",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11",
@@ -39,6 +43,11 @@
   },
   "standard": {
     "parser": "babel-eslint",
-    "plugins": [ "flowtype" ]
+    "plugins": [
+      "flowtype"
+    ],
+    "env": [
+      "jest"
+    ]
   }
 }
