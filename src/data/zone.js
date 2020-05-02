@@ -1,12 +1,15 @@
 // @flow
 
-import type { PolygonType } from './types'
+import type { ZoneType, IdToZoneMap } from './types'
 
 // All data taken from the SCAE Water Chart Report by M. Wellinger
 // et all.
 
 // All mistakes my own!
-const ScaeCore: PolygonType = {
+
+export const ScaeCore: ZoneType = {
+  id: 'scae_core',
+  name: 'SCAE Core Zone',
   points: [
     { x: 39, y: 55 },
     { x: 39, y: 75 },
@@ -18,7 +21,9 @@ const ScaeCore: PolygonType = {
   ]
 }
 
-const ColonnaDHendon: PolygonType = {
+export const ColonnaDHendon: ZoneType = {
+  id: 'colonna_hendon',
+  name: 'Colonna-Dashwood & Hendon',
   points: [
     // Very roughly taken from graphs in
     // SCAE Water chart
@@ -38,7 +43,9 @@ const ColonnaDHendon: PolygonType = {
   ]
 }
 
-const RaoApproximate: PolygonType = {
+export const RaoApproximate: ZoneType = {
+  id: 'rao_approx',
+  name: 'Rao (approximate)',
   points: [
     { x: 45, y: 70 },
     { x: 45, y: 80 },
@@ -48,7 +55,9 @@ const RaoApproximate: PolygonType = {
   ]
 }
 
-const LeebRogallaApproximate: PolygonType = {
+export const LeebRogallaApproximate: ZoneType = {
+  id: 'leeb_rogalla_approx',
+  name: 'Leeb & Rogalla (approximate)',
   points: [
     { x: 45, y: 140 },
     { x: 45, y: 150 },
@@ -58,16 +67,13 @@ const LeebRogallaApproximate: PolygonType = {
   ]
 }
 
-exports.ScaeCore = ScaeCore
-exports.ColonnaDHendon = ColonnaDHendon
-exports.RaoApproximate = RaoApproximate
-exports.LeebRogallaApproximate = LeebRogallaApproximate
-
 // Taken from http://www.scaa.org/?d=water-standards&page=resources
 // Alkalinity is stated as "near 40mg/L" - this is implemented here
 // as +/- 5 ppm CaCO3.
 // Note that 1 mg/L CaCO3 == 1 ppm CaCO3
-const ScaaApproximate: PolygonType = {
+export const ScaaApproximate: ZoneType = {
+  id: 'scaa_approx',
+  name: 'SCAA (approximate)',
   points: [
     { x: 35, y: 17 },
     { x: 35, y: 85 },
@@ -77,4 +83,8 @@ const ScaaApproximate: PolygonType = {
   ]
 }
 
-exports.ScaaApproximate = ScaaApproximate
+export const all = [ScaeCore, ColonnaDHendon, RaoApproximate,
+  LeebRogallaApproximate, ScaeCore]
+
+export const zoneMap: IdToZoneMap = {}
+all.forEach((zone) => { zoneMap[zone.id] = zone })

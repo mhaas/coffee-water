@@ -27,25 +27,3 @@ it('renders correctly empty zoneSelection correctly', () => {
     .toJSON()
   expect(tree).toMatchSnapshot()
 })
-
-it('onChange callback works', () => {
-  const zoneSelection = {
-    'scae-core': {
-      label: 'SCAE Core',
-      checked: false
-    },
-    scaa: {
-      label: 'SCAA',
-      checked: true
-    }
-  }
-
-  const callback = jest.fn()
-
-  const tree = renderer
-    .create(<ZoneSelector value={zoneSelection} onChange={callback}/>)
-
-})
-
-
-

@@ -8,3 +8,12 @@ export type PointType = {
 export type PolygonType = {
     points: Array<PointType>
 }
+
+export type ZoneType = PolygonType & {
+    id: string,
+    name: string
+}
+
+export type IdToZoneMap = {
+    [string]: ZoneType,
+}
