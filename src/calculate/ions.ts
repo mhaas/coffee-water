@@ -15,13 +15,13 @@ export interface WaterProfile {
 
 export const CA_TO_CACO3 = 2.497
 export const MG_TO_CACO3 = 4.118
-export const DH_TO_CACO3 = 17.848
+export const DH_TO_CACO3 = 17.85
 export const FH_TO_CACO3 = 10.0
-export const CLARK_TO_CACO3 = 14.254
+export const CLARK_TO_CACO3 = 14.25
 
-export const HCO3_TO_CACO3 = 0.8197
-export const KH_TO_CACO3 = 17.848
-export const KS43_TO_CACO3 = 50.0
+export const HCO3_TO_CACO3 = 0.8202
+export const KH_TO_CACO3 = 17.85
+export const KS43_TO_CACO3 = 50.04
 
 export const hardnessToCaCO3 = (value: number, unit: HardnessUnit): number => {
   switch (unit) {
