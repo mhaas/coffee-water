@@ -66,20 +66,10 @@ const waterSelectionSlice = createSlice({
       return state
     },
 
-    // @deprecated — use updateIonValue or updateDirectValue instead
-    updateCustomValue: (state: WaterSelectionState, action) => {
-      const { which, field, value } = action.payload
-      if (state[which]) {
-        state[which][field] = value
-        state[which].isCustom = true
-        state[which].id = 'custom'
-        state[which].name = 'Custom...'
-      }
-      return state
-    }
+    // @deprecated reducer removed — use updateIonValue or updateDirectValue
   }
 })
 
-export const { setPreset, updateCustomValue, updateIonValue, updateDirectValue } = waterSelectionSlice.actions
+export const { setPreset, updateIonValue, updateDirectValue } = waterSelectionSlice.actions
 export const sliceName = 'waterSelection'
 export default waterSelectionSlice.reducer

@@ -1,4 +1,4 @@
-import reducer, { setPreset, updateCustomValue, updateIonValue, updateDirectValue } from './waterSlicer'
+import reducer, { setPreset, updateIonValue, updateDirectValue } from './waterSlicer'
 import { waterPresets } from '../../data/waterPresets'
 
 describe('waterSlicer actions & reducer', () => {
@@ -20,12 +20,12 @@ describe('waterSlicer actions & reducer', () => {
     expect(state.waterA.alkalinity).toEqual(volvicPreset.alkalinity)
   })
 
-  it('updates custom numeric values (deprecated path)', () => {
-    const action = updateCustomValue({ which: 'waterB', field: 'hardness', value: 125 })
+  it('sets water preset (backward compat check)', () => {
+    const volvicPreset = waterPresets.find(p => p.id === 'volvic')
+    const action = setPreset({ which: 'waterB', presetId: 'volvic' })
     const state = reducer(initialState, action)
-    expect(state.waterB.id).toEqual('custom')
-    expect(state.waterB.isCustom).toEqual(true)
-    expect(state.waterB.hardness).toEqual(125)
+    expect(state.waterB.id).toEqual('volvic')
+    expect(state.waterB.hardness).toEqual(volvicPreset.hardness)
   })
 })
 
