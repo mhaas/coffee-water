@@ -137,8 +137,11 @@ function MixingCalculator({ selectedZones, waterA, waterB }: Props) {
 
 export default function StatefulMixingCalculator() {
   const selectedZones = Object.values(useSelector((state: StateType) => state.zones.selected))
-  const waterA = useSelector((state: StateType) => state.waterSelection.waterA)
-  const waterB = useSelector((state: StateType) => state.waterSelection.waterB)
+  const waters = useSelector((state: StateType) => state.waterSelection.waters)
+  const waterA = waters[0]
+  const waterB = waters[1]
+
+  if (!waterA || !waterB) return null
 
   return <MixingCalculator selectedZones={selectedZones} waterA={waterA} waterB={waterB} />
 }

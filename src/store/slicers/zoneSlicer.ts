@@ -1,7 +1,7 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 import has from 'lodash.has'
 
-import { zoneMap, ScaeCore } from '../../data/zone'
+import { zoneMap, ScaeCore, ColonnaDHendon } from '../../data/zone'
 import type { IdToZoneMap } from '../../data/types'
 
 export interface SliceStateType {
@@ -11,7 +11,10 @@ export interface SliceStateType {
 
 const initialState: SliceStateType = {
   zones: zoneMap,
-  selected: { [ScaeCore.id]: ScaeCore }
+  selected: {
+    [ScaeCore.id]: ScaeCore,
+    [ColonnaDHendon.id]: ColonnaDHendon
+  }
 }
 
 const zoneSelectionSlice = createSlice({

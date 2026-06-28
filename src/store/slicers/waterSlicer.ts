@@ -4,69 +4,81 @@ import { ionsToProfile } from '../../calculate/ions'
 import type { WaterPreset } from '../../data/waterPresets'
 
 export interface WaterSelectionState {
-  waterA: WaterPreset
-  waterB: WaterPreset
+  waters: WaterPreset[]
 }
 
 const defaultWaterA = waterPresets.find(p => p.id === 'black_forest_still') || waterPresets[1]
 const defaultWaterB = waterPresets.find(p => p.id === 'volvic') || waterPresets[2]
 
 const initialState: WaterSelectionState = {
-  waterA: { ...defaultWaterA, ions: { ...defaultWaterA.ions } },
-  waterB: { ...defaultWaterB, ions: { ...defaultWaterB.ions } }
+  waters: [
+    { ...defaultWaterA, ions: { ...defaultWaterA.ions } },
+    { ...defaultWaterB, ions: { ...defaultWaterB.ions } }
+  ]
 }
 
 const waterSelectionSlice = createSlice({
   name: 'water',
   initialState,
   reducers: {
-    setPreset: (state, action: PayloadAction<{ which: 'waterA' | 'waterB'; presetId: string }>) => {
-      const { which, presetId } = action.payload
+    addWater: (state) => {
+      const preset = waterPresets.find(p => p.id === 'black_forest_still') || waterPresets[1]
+      state.waters.push({ ...preset, ions: { ...preset.ions } })
+    },
+
+    removeWater: (state, action: PayloadAction<number>) => {
+      state.waters.splice(action.payload, 1)
+    },
+
+    setPreset: (state, action: PayloadAction<{ index: number; presetId: string }>) => {
+      const { index, presetId } = action.payload
       const preset = getPresetById(presetId)
-      if (preset) {
-        state[which] = { ...preset, ions: { ...preset.ions } }
+      if (preset && state.waters[index]) {
+        state.waters[index] = { ...preset, ions: { ...preset.ions } }
       }
     },
 
     updateIonValue: (state, action: PayloadAction<{
-      which: 'waterA' | 'waterB'
+      index: number
       field: string
       value: number | string
     }>) => {
-      const { which, field, value } = action.payload
-      if (state[which] && state[which].ions) {
+      const { index, field, value } = action.payload
+      const water = state.waters[index]
+      if (water && water.ions) {
         if (field === 'alkUnit') {
-          state[which].ions.alkUnit = value as 'mgL_hco3' | 'KH' | 'mmolL_ks43'
+          water.ions.alkUnit = value as 'mgL_hco3' | 'KH' | 'mmolL_ks43'
         } else {
-          (state[which].ions as unknown as Record<string, number>)[field] = Number(value) || 0
-          const derived = ionsToProfile(state[which].ions)
-          state[which].hardness = derived.hardness
-          state[which].alkalinity = derived.alkalinity
+          (water.ions as unknown as Record<string, number>)[field] = Number(value) || 0
+          const derived = ionsToProfile(water.ions)
+          water.hardness = derived.hardness
+          water.alkalinity = derived.alkalinity
         }
-        state[which].inputMode = 'ions'
-        state[which].isCustom = true
-        state[which].id = 'custom'
-        state[which].name = 'Custom...'
+        water.inputMode = 'ions'
+        water.isCustom = true
+        water.id = 'custom'
+        water.name = 'Custom...'
       }
     },
 
     updateDirectValue: (state, action: PayloadAction<{
-      which: 'waterA' | 'waterB'
+      index: number
       field: 'hardness' | 'alkalinity'
       value: number
     }>) => {
-      const { which, field, value } = action.payload
-      if (state[which]) {
-        state[which][field] = Number(value) || 0
-        state[which].inputMode = 'direct'
-        state[which].isCustom = true
-        state[which].id = 'custom'
-        state[which].name = 'Custom...'
+      const { index, field, value } = action.payload
+      const water = state.waters[index]
+      if (water) {
+        water[field] = Number(value) || 0
+        water.inputMode = 'direct'
+        water.isCustom = true
+        water.id = 'custom'
+        water.name = 'Custom...'
       }
     },
   }
 })
 
-export const { setPreset, updateIonValue, updateDirectValue } = waterSelectionSlice.actions
+export const { setPreset, updateIonValue, updateDirectValue, addWater, removeWater } = waterSelectionSlice.actions
 export const sliceName = 'waterSelection'
 export default waterSelectionSlice.reducer

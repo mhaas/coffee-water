@@ -13,15 +13,21 @@ describe('Plot', () => {
   describe('zones mode', () => {
     it('renders without crashing', () => {
       expect(() => {
-        render(<Plot polygons={polygons} mode="zones" waterA={null} waterB={null} />)
+        render(<Plot polygons={polygons} mode="zones" waters={[]} />)
       }).not.toThrow()
     })
   })
 
   describe('evaluate mode', () => {
-    it('renders without crashing', () => {
+    it('renders without crashing with one water', () => {
       expect(() => {
-        render(<Plot polygons={polygons} mode="evaluate" waterA={waterA} waterB={null} />)
+        render(<Plot polygons={polygons} mode="evaluate" waters={[waterA]} />)
+      }).not.toThrow()
+    })
+
+    it('renders without crashing with multiple waters', () => {
+      expect(() => {
+        render(<Plot polygons={polygons} mode="evaluate" waters={[waterA, waterB]} />)
       }).not.toThrow()
     })
   })
@@ -29,7 +35,7 @@ describe('Plot', () => {
   describe('mix mode', () => {
     it('renders without crashing (regression test for MUI/Victory crash)', () => {
       expect(() => {
-        render(<Plot polygons={polygons} mode="mix" waterA={waterA} waterB={waterB} />)
+        render(<Plot polygons={polygons} mode="mix" waters={[waterA, waterB]} />)
       }).not.toThrow()
     })
   })

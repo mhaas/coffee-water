@@ -47,10 +47,13 @@ describe('store', () => {
     }
   })
 
-  it('initial state contains zones', () => {
+  it('initial state contains zones and both default-selected zones', () => {
     const state = reducer(undefined, { type: '' })
     expect(state.zones).toEqual(expect.any(Object))
-    expect(state.selected).toEqual({ scae_core: expect.objectContaining({ id: 'scae_core' }) })
+    expect(state.selected).toEqual({
+      scae_core: expect.objectContaining({ id: 'scae_core' }),
+      colonna_hendon: expect.objectContaining({ id: 'colonna_hendon' })
+    })
   })
 
   it('select adds zone', () => {

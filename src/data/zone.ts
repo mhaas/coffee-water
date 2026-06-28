@@ -4,6 +4,10 @@ export const ScaeCore: ZoneType = {
   id: 'scae_core',
   name: 'SCAE Core Zone',
   color: '#1565c0',
+  source: {
+    url: 'SCAE-water-chart-report.pdf',
+    citation: 'Wellinger, M., Smrke, S. and Yeretzian, C., The SCAE Water Chart, 2016'
+  },
   points: [
     { x: 39, y: 55 },
     { x: 39, y: 75 },
@@ -19,6 +23,10 @@ export const ColonnaDHendon: ZoneType = {
   id: 'colonna_hendon',
   name: 'Colonna-Dashwood & Hendon',
   color: '#6a1b9a',
+  source: {
+    url: 'SCAE-water-chart-report.pdf',
+    citation: 'Wellinger, M., Smrke, S. and Yeretzian, C., The SCAE Water Chart, 2016'
+  },
   points: [
     { x: 39, y: 55 },
     { x: 40, y: 160 },
@@ -36,47 +44,24 @@ export const ColonnaDHendon: ZoneType = {
   ]
 }
 
-export const RaoApproximate: ZoneType = {
-  id: 'rao_approx',
-  name: 'Rao (approximate)',
-  color: '#2e7d32',
-  points: [
-    { x: 45, y: 70 },
-    { x: 45, y: 80 },
-    { x: 55, y: 80 },
-    { x: 55, y: 70 },
-    { x: 45, y: 70 }
-  ]
-}
-
-export const LeebRogallaApproximate: ZoneType = {
-  id: 'leeb_rogalla_approx',
-  name: 'Leeb & Rogalla (approximate)',
-  color: '#e65100',
-  points: [
-    { x: 45, y: 140 },
-    { x: 45, y: 150 },
-    { x: 55, y: 150 },
-    { x: 55, y: 140 },
-    { x: 45, y: 140 }
-  ]
-}
-
 export const ScaaApproximate: ZoneType = {
   id: 'scaa_approx',
   name: 'SCAA (approximate)',
   color: '#00838f',
+  source: {
+    url: 'ST - WATER STANDARD V.21NOV2009A.pdf',
+    citation: 'SCAA Standard — Water for Brewing Specialty Coffee, Specialty Coffee Association of America, 2009'
+  },
   points: [
-    { x: 35, y: 17 },
-    { x: 35, y: 85 },
-    { x: 45, y: 85 },
-    { x: 45, y: 17 },
-    { x: 35, y: 17 }
+    { x: 38, y: 17 },
+    { x: 38, y: 85 },
+    { x: 42, y: 85 },
+    { x: 42, y: 17 },
+    { x: 38, y: 17 }
   ]
 }
 
-export const all = [ScaeCore, ColonnaDHendon, RaoApproximate,
-  LeebRogallaApproximate, ScaaApproximate]
+export const all = [ScaeCore, ColonnaDHendon, ScaaApproximate]
 
 export const zoneMap: IdToZoneMap = {}
 all.forEach((zone) => { zoneMap[zone.id] = zone })

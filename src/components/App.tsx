@@ -1,17 +1,22 @@
 import { useState } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import {
-  Container, Grid, Typography, Box, Paper, AppBar, Toolbar, Tabs, Tab
+  Container, Grid, Typography, Box, Paper, AppBar, Toolbar, Tabs, Tab, Link, Divider, Button
 } from '@mui/material'
 
 import { StatefulZoneSelector } from './ZoneSelector'
 import { StatefulPlot } from './Plot'
 import StatefulWaterSelector from './WaterSelector'
 import StatefulMixingCalculator from './MixingCalculator'
+import { addWater, removeWater } from '../store/slicers/waterSlicer'
+import type { StateType, AppDispatch } from '../store/store'
 
 type Mode = 'zones' | 'evaluate' | 'mix'
 
 export default function App() {
   const [mode, setMode] = useState<Mode>('zones')
+  const dispatch = useDispatch<AppDispatch>()
+  const numWaters = useSelector((state: StateType) => state.waterSelection.waters.length)
 
   return (
     <Box style={{ backgroundColor: '#f5f5f5', minHeight: '100vh', paddingBottom: '32px' }}>
@@ -70,14 +75,29 @@ export default function App() {
           </Grid>
 
           {mode === 'evaluate' && (
-            <Grid size={{ xs: 12, md: 6 }}>
-              <Paper style={{ padding: '20px' }} variant="outlined">
-                <Typography variant="h6" gutterBottom style={{ fontWeight: 600 }}>
-                  Your Water
-                </Typography>
-                <StatefulWaterSelector which="waterA" label="Select or enter your water" />
-              </Paper>
-            </Grid>
+            <>
+              {Array.from({ length: numWaters }, (_, i) => (
+                <Grid size={{ xs: 12, md: 6 }} key={i}>
+                  <Paper style={{ padding: '20px' }} variant="outlined">
+                    <StatefulWaterSelector
+                      index={i}
+                      label={i === 0 ? 'Your Water' : `Water ${i + 1}`}
+                      onRemove={numWaters > 1 ? () => dispatch(removeWater(i)) : undefined}
+                    />
+                  </Paper>
+                </Grid>
+              ))}
+              <Grid size={{ xs: 12 }}>
+                <Button
+                  variant="outlined"
+                  size="small"
+                  onClick={() => dispatch(addWater())}
+                  style={{ textTransform: 'none' }}
+                >
+                  + Add Water
+                </Button>
+              </Grid>
+            </>
           )}
 
           {mode === 'mix' && (
@@ -87,7 +107,7 @@ export default function App() {
                   <Typography variant="h6" gutterBottom style={{ fontWeight: 600 }}>
                     Water A
                   </Typography>
-                  <StatefulWaterSelector which="waterA" label="Water A (e.g. Distilled / RO base)" />
+                  <StatefulWaterSelector index={0} label="Water A (e.g. Distilled / RO base)" />
                 </Paper>
               </Grid>
 
@@ -96,7 +116,7 @@ export default function App() {
                   <Typography variant="h6" gutterBottom style={{ fontWeight: 600 }}>
                     Water B
                   </Typography>
-                  <StatefulWaterSelector which="waterB" label="Water B (e.g. Mineral / Tap)" />
+                  <StatefulWaterSelector index={1} label="Water B (e.g. Mineral / Tap)" />
                 </Paper>
               </Grid>
 
@@ -107,6 +127,36 @@ export default function App() {
           )}
 
         </Grid>
+      </Container>
+
+      <Container maxWidth="xl" style={{ marginTop: '32px' }}>
+        <Paper style={{ padding: '20px' }} variant="outlined">
+          <Typography variant="h6" gutterBottom style={{ fontWeight: 600 }}>
+            References
+          </Typography>
+          <Divider style={{ marginBottom: '12px' }} />
+          <Typography variant="body2" style={{ marginBottom: 8 }}>
+            Wellinger, M., Smrke, S. and Yeretzian, C., "Water for Extraction—Composition, Recommendations, and Treatment", in <em>The Craft and Science of Coffee</em> (ed. B. Folmer), Academic Press, 2017, pp. 381-398.{' '}
+            <Link href="The-Craft-and-Science-of-Coffee2017-Chapter16Water.pdf" target="_blank" rel="noopener noreferrer">
+              [cached copy]
+            </Link>{' '}
+            <Link href="https://doi.org/10.1016/B978-0-12-803520-7.00016-5" target="_blank" rel="noopener noreferrer">
+              [DOI]
+            </Link>
+          </Typography>
+          <Typography variant="body2" style={{ marginBottom: 8 }}>
+            Wellinger, M., Smrke, S. and Yeretzian, C., <em>The SCAE Water Chart</em>, Specialty Coffee Association of Europe, 2016.{' '}
+            <Link href="SCAE-water-chart-report.pdf" target="_blank" rel="noopener noreferrer">
+              [cached copy]
+            </Link>
+          </Typography>
+          <Typography variant="body2">
+            <em>SCAA Standard — Water for Brewing Specialty Coffee</em>, Specialty Coffee Association of America, 2009.{' '}
+            <Link href="ST - WATER STANDARD V.21NOV2009A.pdf" target="_blank" rel="noopener noreferrer">
+              [cached copy]
+            </Link>
+          </Typography>
+        </Paper>
       </Container>
     </Box>
   )

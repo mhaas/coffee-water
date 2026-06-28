@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   Card, CardContent, Typography, TextField, FormHelperText,
-  Grid, MenuItem, Button, Divider, Box, Autocomplete
+  Grid, MenuItem, Button, Divider, Box, Autocomplete, Link
 } from '@mui/material'
 import { waterPresets } from '../data/waterPresets'
 import { normaliseAlkalinity, hardnessToCaCO3, CA_TO_CACO3 } from '../calculate/ions'
@@ -17,6 +17,7 @@ interface Props {
   onChangePreset: (presetId: string) => void
   onChangeIon: (field: string, value: number | string) => void
   onChangeDirect: (field: string, value: number) => void
+  onRemove?: () => void
 }
 
 const ALK_UNIT_LABELS: Record<string, string> = {
@@ -40,7 +41,7 @@ const hco3ToDisplayValue = (hco3MgL: number, unit: AlkalinityUnit): number => {
   }
 }
 
-function WaterSelector({ label, water, onChangePreset, onChangeIon, onChangeDirect }: Props) {
+function WaterSelector({ label, water, onChangePreset, onChangeIon, onChangeDirect, onRemove }: Props) {
   const alkUnitFromPreset = (water.ions?.alkUnit || 'mgL_hco3') as AlkalinityUnit
   const [alkUnit, setAlkUnit] = useState<AlkalinityUnit>(alkUnitFromPreset)
   const [alkDisplayValue, setAlkDisplayValue] = useState(
@@ -305,9 +306,21 @@ function WaterSelector({ label, water, onChangePreset, onChangeIon, onChangeDire
   return (
     <Card style={{ margin: '12px 0' }} variant="outlined">
       <CardContent>
-        <Typography variant="h6" color="textSecondary" gutterBottom>
-          {label}
-        </Typography>
+        <Box display="flex" justifyContent="space-between" alignItems="center">
+          <Typography variant="h6" color="textSecondary" gutterBottom style={{ marginBottom: 0 }}>
+            {label}
+          </Typography>
+          {onRemove && (
+            <Button
+              size="small"
+              color="inherit"
+              onClick={onRemove}
+              style={{ minWidth: 0, padding: '2px 6px', fontSize: '0.8rem', color: '#999' }}
+            >
+              ✕ Remove
+            </Button>
+          )}
+        </Box>
 
         <Autocomplete
           options={waterPresets}
@@ -316,6 +329,15 @@ function WaterSelector({ label, water, onChangePreset, onChangeIon, onChangeDire
           onChange={handlePresetChange}
           renderInput={(params) => <TextField {...params} label="Select Preset" variant="outlined" fullWidth />}
         />
+
+        {activePreset.source && (
+          <Typography variant="caption" style={{ marginTop: 4, display: 'block' }}>
+            Source:{' '}
+            <Link href={activePreset.source.url} target="_blank" rel="noopener noreferrer">
+              {activePreset.source.citation || activePreset.source.url}
+            </Link>
+          </Typography>
+        )}
 
         <Divider style={{ margin: '12px 0' }} />
 
@@ -330,25 +352,28 @@ function WaterSelector({ label, water, onChangePreset, onChangeIon, onChangeDire
 }
 
 interface StatefulWaterSelectorProps {
-  which: 'waterA' | 'waterB'
+  index: number
   label: string
+  onRemove?: () => void
 }
 
-export default function StatefulWaterSelector({ which, label }: StatefulWaterSelectorProps) {
+export default function StatefulWaterSelector({ index, label, onRemove }: StatefulWaterSelectorProps) {
   const dispatch = useDispatch<AppDispatch>()
-  const water = useSelector((state: StateType) => state.waterSelection[which])
+  const water = useSelector((state: StateType) => state.waterSelection.waters[index])
 
   const onChangePreset = useCallback((presetId: string) => {
-    dispatch(setPreset({ which, presetId }))
-  }, [dispatch, which])
+    dispatch(setPreset({ index, presetId }))
+  }, [dispatch, index])
 
   const onChangeIon = useCallback((field: string, value: number | string) => {
-    dispatch(updateIonValue({ which, field, value }))
-  }, [dispatch, which])
+    dispatch(updateIonValue({ index, field, value }))
+  }, [dispatch, index])
 
   const onChangeDirect = useCallback((field: string, value: number) => {
-    dispatch(updateDirectValue({ which, field: field as 'hardness' | 'alkalinity', value }))
-  }, [dispatch, which])
+    dispatch(updateDirectValue({ index, field: field as 'hardness' | 'alkalinity', value }))
+  }, [dispatch, index])
+
+  if (!water) return null
 
   return (
     <WaterSelector
@@ -357,6 +382,7 @@ export default function StatefulWaterSelector({ which, label }: StatefulWaterSel
       onChangePreset={onChangePreset}
       onChangeIon={onChangeIon}
       onChangeDirect={onChangeDirect}
+      onRemove={onRemove}
     />
   )
 }
