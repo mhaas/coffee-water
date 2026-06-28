@@ -28,6 +28,7 @@ const preset = (
 const wiesloch_sg_hco3 = normaliseAlkalinity(16.4, 'KH')
 const wiesloch_sh_hco3 = normaliseAlkalinity(19.2, 'KH')
 const walldorf_hco3 = normaliseAlkalinity(5.52, 'mmolL_ks43')
+const st_ingbert_hco3 = normaliseAlkalinity(1.02, 'mmolL_ks43')
 
 export const waterPresets: WaterPreset[] = [
   preset('pure_ro', 'Pure RO / Distilled',
@@ -56,6 +57,10 @@ export const waterPresets: WaterPreset[] = [
 
   preset('schwetzinger_hardt', 'Schwetzinger Hardt Tap',
     { ca: 101, mg: 17, hco3: 337, alkUnit: 'mgL_hco3' }
+  ),
+
+  preset('st_ingbert', 'St. Ingbert Tap',
+    { ca: 25.7, mg: 2.2, hco3: st_ingbert_hco3, alkUnit: 'mmolL_ks43' }
   ),
 
   preset('wiesloch_stadtgebiet', 'Wiesloch Tap (Stadtgebiet)',
