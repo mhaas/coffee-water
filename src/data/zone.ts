@@ -1,15 +1,9 @@
-// @flow
-
 import type { ZoneType, IdToZoneMap } from './types'
-
-// All data taken from the SCAE Water Chart Report by M. Wellinger
-// et all.
-
-// All mistakes my own!
 
 export const ScaeCore: ZoneType = {
   id: 'scae_core',
   name: 'SCAE Core Zone',
+  color: '#1565c0',
   points: [
     { x: 39, y: 55 },
     { x: 39, y: 75 },
@@ -24,9 +18,8 @@ export const ScaeCore: ZoneType = {
 export const ColonnaDHendon: ZoneType = {
   id: 'colonna_hendon',
   name: 'Colonna-Dashwood & Hendon',
+  color: '#6a1b9a',
   points: [
-    // Very roughly taken from graphs in
-    // SCAE Water chart
     { x: 39, y: 55 },
     { x: 40, y: 160 },
     { x: 50, y: 170 },
@@ -46,6 +39,7 @@ export const ColonnaDHendon: ZoneType = {
 export const RaoApproximate: ZoneType = {
   id: 'rao_approx',
   name: 'Rao (approximate)',
+  color: '#2e7d32',
   points: [
     { x: 45, y: 70 },
     { x: 45, y: 80 },
@@ -58,6 +52,7 @@ export const RaoApproximate: ZoneType = {
 export const LeebRogallaApproximate: ZoneType = {
   id: 'leeb_rogalla_approx',
   name: 'Leeb & Rogalla (approximate)',
+  color: '#e65100',
   points: [
     { x: 45, y: 140 },
     { x: 45, y: 150 },
@@ -67,13 +62,10 @@ export const LeebRogallaApproximate: ZoneType = {
   ]
 }
 
-// Taken from http://www.scaa.org/?d=water-standards&page=resources
-// Alkalinity is stated as "near 40mg/L" - this is implemented here
-// as +/- 5 ppm CaCO3.
-// Note that 1 mg/L CaCO3 == 1 ppm CaCO3
 export const ScaaApproximate: ZoneType = {
   id: 'scaa_approx',
   name: 'SCAA (approximate)',
+  color: '#00838f',
   points: [
     { x: 35, y: 17 },
     { x: 35, y: 85 },
@@ -84,7 +76,7 @@ export const ScaaApproximate: ZoneType = {
 }
 
 export const all = [ScaeCore, ColonnaDHendon, RaoApproximate,
-  LeebRogallaApproximate, ScaeCore]
+  LeebRogallaApproximate, ScaaApproximate]
 
 export const zoneMap: IdToZoneMap = {}
 all.forEach((zone) => { zoneMap[zone.id] = zone })

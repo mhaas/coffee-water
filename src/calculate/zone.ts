@@ -1,8 +1,17 @@
-import * as inside from 'point-in-polygon'
+import inside from 'point-in-polygon'
 
-import * as ratio from './ratio.js'
+import * as ratio from './ratio'
 
-export const findRatiosForZone = (alkalinityWater1, hardnessWater1, alkalinityWater2, hardnessWater2, zone) => {
+type Coord = [number, number]
+type ZonePolygon = Coord[]
+
+export const findRatiosForZone = (
+  alkalinityWater1: number,
+  hardnessWater1: number,
+  alkalinityWater2: number,
+  hardnessWater2: number,
+  zone: ZonePolygon
+): number[] => {
   const minMaxAlkalinity = findMinMaxAlkalinityForZone(zone)
   const minAlkalinity = minMaxAlkalinity[0]
   const maxAlkalinity = minMaxAlkalinity[1]
@@ -11,7 +20,7 @@ export const findRatiosForZone = (alkalinityWater1, hardnessWater1, alkalinityWa
 
   const stepAlkalinity = 0.5
 
-  const ratios = []
+  const ratios: number[] = []
 
   for (let targetAlkalinity = minAlkalinity; targetAlkalinity <= maxAlkalinity; targetAlkalinity += stepAlkalinity) {
     const proportionWater1 = ratio.calculateProportion(alkalinityWater1, alkalinityWater2, targetAlkalinity)
@@ -35,9 +44,9 @@ export const findRatiosForZone = (alkalinityWater1, hardnessWater1, alkalinityWa
   return ratios
 }
 
-const findMinMaxAlkalinityForZone = (zone) => {
-  let min = null
-  let max = null
+const findMinMaxAlkalinityForZone = (zone: ZonePolygon): [number, number] => {
+  let min: number | null = null
+  let max: number | null = null
 
   for (let idx = 0; idx < zone.length; idx++) {
     const point = zone[idx]
@@ -49,15 +58,14 @@ const findMinMaxAlkalinityForZone = (zone) => {
     if (min > alk) {
       min = alk
     }
-    if (max < alk) {
+    if (max != null && max < alk) {
       max = alk
     }
   }
-  return [min, max]
+  return [min ?? 0, max ?? 0]
 }
 
-export const calculateConcentration = (proportionWater1, water1, water2) => {
+export const calculateConcentration = (proportionWater1: number, water1: number, water2: number): number => {
   const proportionWater2 = (1 - proportionWater1)
-
   return (water1 * proportionWater1) + (water2 * proportionWater2)
 }

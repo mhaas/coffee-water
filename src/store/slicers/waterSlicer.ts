@@ -1,12 +1,10 @@
-// @flow
-
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit'
 import { waterPresets, getPresetById } from '../../data/waterPresets'
 import { ionsToProfile } from '../../calculate/ions'
 import type { WaterPreset } from '../../data/waterPresets'
 
-export type WaterSelectionState = {
-  waterA: WaterPreset,
+export interface WaterSelectionState {
+  waterA: WaterPreset
   waterB: WaterPreset
 }
 
@@ -22,24 +20,25 @@ const waterSelectionSlice = createSlice({
   name: 'water',
   initialState,
   reducers: {
-    setPreset: (state: WaterSelectionState, action) => {
+    setPreset: (state, action: PayloadAction<{ which: 'waterA' | 'waterB'; presetId: string }>) => {
       const { which, presetId } = action.payload
       const preset = getPresetById(presetId)
       if (preset) {
         state[which] = { ...preset, ions: { ...preset.ions } }
       }
-      return state
     },
 
-    // Update a single ion field (ca, mg, hco3) and recompute hardness/alkalinity.
-    // Also accepts alkUnit updates (no recompute needed — just updates display preference).
-    updateIonValue: (state: WaterSelectionState, action) => {
+    updateIonValue: (state, action: PayloadAction<{
+      which: 'waterA' | 'waterB'
+      field: string
+      value: number | string
+    }>) => {
       const { which, field, value } = action.payload
       if (state[which] && state[which].ions) {
         if (field === 'alkUnit') {
-          state[which].ions.alkUnit = value
+          state[which].ions.alkUnit = value as 'mgL_hco3' | 'KH' | 'mmolL_ks43'
         } else {
-          state[which].ions[field] = Number(value) || 0
+          (state[which].ions as unknown as Record<string, number>)[field] = Number(value) || 0
           const derived = ionsToProfile(state[which].ions)
           state[which].hardness = derived.hardness
           state[which].alkalinity = derived.alkalinity
@@ -49,12 +48,13 @@ const waterSelectionSlice = createSlice({
         state[which].id = 'custom'
         state[which].name = 'Custom...'
       }
-      return state
     },
 
-    // Write hardness or alkalinity directly in mg/L CaCO3.
-    // Does not recompute ions — ions remain as last set by preset/updateIonValue.
-    updateDirectValue: (state: WaterSelectionState, action) => {
+    updateDirectValue: (state, action: PayloadAction<{
+      which: 'waterA' | 'waterB'
+      field: 'hardness' | 'alkalinity'
+      value: number
+    }>) => {
       const { which, field, value } = action.payload
       if (state[which]) {
         state[which][field] = Number(value) || 0
@@ -63,10 +63,7 @@ const waterSelectionSlice = createSlice({
         state[which].id = 'custom'
         state[which].name = 'Custom...'
       }
-      return state
     },
-
-    // @deprecated reducer removed — use updateIonValue or updateDirectValue
   }
 })
 

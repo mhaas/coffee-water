@@ -1,56 +1,50 @@
 {
   "name": "coffee-water",
   "version": "1.0.0",
-  "sideEffects": false,
-  "description": "",
+  "homepage": "https://mhaas.github.io/coffee-water",
+  "type": "module",
   "private": true,
+  "description": "Coffee Water Recipe Studio — explore and compute optimal water profiles for brewing specialty coffee.",
   "scripts": {
-    "build": "NODE_ENV=production webpack --mode production",
-    "test": "jest",
-    "start": "webpack-dev-server --open",
-    "lint": "standard 'src/**/*js' 'src/**/*jsx'",
-    "lint:fix": "standard --fix 'src/**/*js' 'src/**/*jsx'"
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
+    "deploy": "npm run build && gh-pages -d dist",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint src",
+    "lint:fix": "eslint --fix src"
   },
-  "author": "",
   "license": "ISC",
   "dependencies": {
-    "@hot-loader/react-dom": "^16.13.0",
-    "@material-ui/core": "^4.9.11",
-    "@reduxjs/toolkit": "^1.3.5",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/icons-material": "^7.3.6",
+    "@mui/material": "^7.3.6",
+    "@reduxjs/toolkit": "^2.8.2",
     "lodash.has": "^4.5.2",
-    "point-in-polygon": "^1.0.1",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-hot-loader": "^4.12.20",
-    "react-redux": "^7.2.0",
-    "victory": "^34.1.3"
+    "point-in-polygon": "^1.1.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-redux": "^9.2.0",
+    "victory": "^37.3.6"
   },
   "devDependencies": {
-    "@babel/cli": "^7.8.4",
-    "@babel/core": "^7.9.0",
-    "@babel/preset-env": "^7.9.5",
-    "@babel/preset-flow": "^7.9.0",
-    "@babel/preset-react": "^7.9.4",
-    "@testing-library/react": "^10.0.3",
-    "babel-eslint": "^10.1.0",
-    "babel-loader": "^8.1.0",
-    "d3": "^5.15.1",
-    "eslint-plugin-flowtype": "^4.7.0",
-    "flow-bin": "^0.123.0",
-    "jest": "^25.4.0",
-    "react-test-renderer": "^16.13.1",
-    "standard": "^14.3.3",
-    "webpack": "^4.42.1",
-    "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.10.3"
-  },
-  "standard": {
-    "parser": "babel-eslint",
-    "plugins": [
-      "flowtype"
-    ],
-    "env": [
-      "jest"
-    ]
+    "@eslint/js": "^9.30.1",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@types/lodash.has": "^4.5.9",
+    "@types/react": "^19.1.2",
+    "@types/react-dom": "^19.1.5",
+    "@vitejs/plugin-react": "^4.6.0",
+    "eslint": "^9.30.1",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "gh-pages": "^6.3.0",
+    "jsdom": "^26.1.0",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.34.1",
+    "vite": "^6.3.5",
+    "vitest": "^3.1.5"
   }
 }
